@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"github.com/umanovskis/etsy-api/api"
+	"github.com/umanovskis/go-etsy-api/api"
 	"os"
 )
 
