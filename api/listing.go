@@ -19,6 +19,10 @@ type ListingResponse struct {
 	Items Listings `json:"results"`
 }
 
+type listingRequest struct {
+	parameters url.Values
+}
+
 func (l Listings) GetActiveListings() Listings {
 	var result []Listing
 	for i := range l {
@@ -30,11 +34,12 @@ func (l Listings) GetActiveListings() Listings {
 }
 
 func (r *listingRequest) AddKeyword(keyword string) {
-	r.parameters.Add("keywords", keyword)
-}
-
-type listingRequest struct {
-	parameters url.Values
+	old := r.parameters.Get("keywords")
+	if old != "" {
+		r.parameters.Set("keywords", old+","+keyword)
+	} else {
+		r.parameters.Set("keywords", keyword)
+	}
 }
 
 func NewListingRequest() *listingRequest {
