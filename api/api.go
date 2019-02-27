@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"github.com/umanovskis/go-etsy-api/http"
 	"io/ioutil"
 	"os/user"
 	"strings"
@@ -13,8 +14,8 @@ type EtsyApi struct {
 	apiKey string
 }
 
-type RequestUrl interface {
-	Url()
+type Requester interface {
+	Url() string
 }
 
 func CreateApiCtx(apiKey string) *EtsyApi {
@@ -38,4 +39,8 @@ func (e *EtsyApi) authenticate(url string) string {
 		return url + "?api_key=" + e.apiKey
 	}
 	return url + "&api_key=" + e.apiKey
+}
+
+func (e *EtsyApi) Request(r Requester) ([]byte, error) {
+	return http.HttpRequest(e.authenticate(r.Url()))
 }

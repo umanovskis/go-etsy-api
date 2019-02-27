@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"net/url"
 )
 
@@ -21,6 +22,7 @@ type ListingResponse struct {
 
 type listingRequest struct {
 	parameters url.Values
+	ctx        *EtsyApi
 }
 
 func (l Listings) GetActiveListings() Listings {
@@ -42,10 +44,26 @@ func (r *listingRequest) AddKeyword(keyword string) {
 	}
 }
 
-func NewListingRequest() *listingRequest {
-	return &listingRequest{parameters: url.Values{}}
+func (e *EtsyApi) NewListingRequest() *listingRequest {
+	return &listingRequest{parameters: url.Values{}, ctx: e}
 }
 
 func (l *listingRequest) Url() string {
 	return urlbase + "/listings/active/?" + l.parameters.Encode()
+}
+
+func (l *listingRequest) Execute() (ListingResponse, error) {
+	bytes, err := l.ctx.Request(l)
+
+	if err != nil {
+		return ListingResponse{}, err
+	}
+	var response ListingResponse
+	err = json.Unmarshal(bytes, &response)
+
+	if err != nil {
+		return ListingResponse{}, err
+	}
+
+	return response, nil
 }

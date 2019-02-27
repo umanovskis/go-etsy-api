@@ -19,8 +19,8 @@ func main() {
 	}
 	ctx := api.CreateApiCtx(key)
 
-	req := api.NewListingRequest()
-	body, err := ctx.HttpRequest(req.Url())
+	req := ctx.NewListingRequest()
+	body, err := ctx.Request(req)
 
 	if err != nil {
 		fmt.Printf(err.Error())
@@ -38,7 +38,7 @@ func main() {
 	req.AddKeyword("goat")
 	fmt.Println(req.Url())
 
-	body, err = ctx.HttpRequest(req.Url())
+	body, err = ctx.Request(req)
 	json.Unmarshal(body, &response)
 	for _, l := range response.Items {
 		fmt.Println(l.Title + " ---- " + l.State)
