@@ -11,6 +11,8 @@ type Listing struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Url         string `json:"url"`
+	Shop        Shop   `json:"Shop"`
+	User        User   `json:"User"`
 }
 
 type Listings []Listing
@@ -45,7 +47,7 @@ func (r *listingRequest) AddKeyword(keyword string) {
 }
 
 func (e *EtsyApi) NewListingRequest() *listingRequest {
-	return &listingRequest{parameters: url.Values{}, ctx: e}
+	return &listingRequest{parameters: url.Values{"includes": []string{"Shop,User"}}, ctx: e}
 }
 
 func (l *listingRequest) Url() string {
