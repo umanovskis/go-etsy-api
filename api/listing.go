@@ -22,15 +22,19 @@ type ListingResponse struct {
 	Items Listings `json:"results"`
 }
 
+type Accepter interface {
+	Accept(Listing) bool
+}
+
 type listingRequest struct {
 	parameters url.Values
 	ctx        *EtsyApi
 }
 
-func (l Listings) GetActiveListings() Listings {
+func (l Listings) Filter(filter Accepter) Listings {
 	var result []Listing
 	for i := range l {
-		if l[i].State == "active" {
+		if filter.Accept(l[i]) {
 			result = append(result, l[i])
 		}
 	}
@@ -68,4 +72,8 @@ func (l *listingRequest) Execute() (ListingResponse, error) {
 	}
 
 	return response, nil
+}
+
+func (l *Listing) GetFeedback() FeedbackInfo {
+	return l.User.Feedback
 }
