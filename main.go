@@ -4,8 +4,9 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"github.com/umanovskis/go-etsy-api/api"
 	"os"
+
+	"github.com/umanovskis/go-etsy-api/api"
 )
 
 func main() {
@@ -20,6 +21,7 @@ func main() {
 	ctx := api.CreateApiCtx(key)
 
 	req := ctx.NewListingRequest()
+	req.AddKeyword("goat")
 	body, err := ctx.Request(req)
 
 	if err != nil {
@@ -29,19 +31,10 @@ func main() {
 
 	var response api.ListingResponse
 	json.Unmarshal(body, &response)
-	fmt.Printf("%s listings total\n", response.Count)
 	for _, l := range response.Items {
-		fmt.Println(l.Title + " ---- " + l.Url)
-	}
-	active := response.Items.GetActiveListings()
-	fmt.Printf("%s active listings decoded\n", len(active))
-	req.AddKeyword("goat")
-	fmt.Println(req.Url())
-
-	body, err = ctx.Request(req)
-	json.Unmarshal(body, &response)
-	for _, l := range response.Items {
-		fmt.Println(l.Title + " ---- " + l.State)
+		fmt.Println(l.Title + " -- SOLD BY -- " + l.Shop.Name)
+                fmt.Println(l.Url)
+                fmt.Println(l.User.Feedback)
 	}
 
 	/*
