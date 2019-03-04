@@ -33,9 +33,13 @@ func main() {
 	json.Unmarshal(body, &response)
 	for _, l := range response.Items {
 		fmt.Println(l.Title + " -- SOLD BY -- " + l.Shop.Name)
-                fmt.Println(l.Url)
-                fmt.Println(l.User.Feedback)
+		fmt.Println(l.Url)
+		fmt.Println(l.User.Feedback)
 	}
+	first := response.Items[0]
+	fmt.Println("---- FIRST ---- ")
+	fmt.Println(first.Title)
+	fmt.Println(first.Image.Url)
 
 	/*
 		url = url.AddKeyword("goat")

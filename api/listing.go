@@ -6,13 +6,14 @@ import (
 )
 
 type Listing struct {
-	Id          int    `json:"id"`
-	State       string `json:"state"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Url         string `json:"url"`
-	Shop        Shop   `json:"Shop"`
-	User        User   `json:"User"`
+	Id          int       `json:"id"`
+	State       string    `json:"state"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+	Url         string    `json:"url"`
+	Shop        Shop      `json:"Shop"`
+	User        User      `json:"User"`
+	Image       MainImage `json:"MainImage"`
 }
 
 type Listings []Listing
@@ -51,7 +52,7 @@ func (r *listingRequest) AddKeyword(keyword string) {
 }
 
 func (e *EtsyApi) NewListingRequest() *listingRequest {
-	return &listingRequest{parameters: url.Values{"includes": []string{"Shop,User"}}, ctx: e}
+	return &listingRequest{parameters: url.Values{"includes": []string{"Shop,User,MainImage"}}, ctx: e}
 }
 
 func (l *listingRequest) Url() string {

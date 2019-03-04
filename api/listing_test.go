@@ -10,7 +10,7 @@ var ctx = CreateApiCtx("testkey")
 
 func TestNewListing(t *testing.T) {
 	l := ctx.NewListingRequest()
-	assert.Equal(t, urlbase+"/listings/active/?includes=Shop%2CUser", l.Url())
+	assert.Equal(t, urlbase+"/listings/active/?includes=Shop%2CUser%2CMainImage", l.Url())
 
 	l2 := ctx.NewListingRequest()
 	assert.Equal(t, l.Url(), l2.Url())
