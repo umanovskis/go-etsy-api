@@ -12,6 +12,8 @@ type Listing struct {
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
 	Url         string    `json:"url"`
+	Price       string    `json:"price"`
+	Currency    string    `json:"currency"`
 	Shop        Shop      `json:"Shop"`
 	User        User      `json:"User"`
 	Image       MainImage `json:"MainImage"`
