@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/url"
+	"strconv"
 )
 
 type Listing struct {
@@ -49,6 +50,14 @@ func (r *listingRequest) AddKeyword(keyword string) {
 	} else {
 		r.parameters.Set("keywords", keyword)
 	}
+}
+
+func (r *listingRequest) SetPageNumber(page int) {
+	r.parameters.Set("page", strconv.Itoa(page))
+}
+
+func (r *listingRequest) SetLimit(limit int) {
+	r.parameters.Set("limit", strconv.Itoa(limit))
 }
 
 func (e *EtsyApi) NewListingRequest() *listingRequest {
