@@ -13,7 +13,7 @@ type Listing struct {
 	Description string    `json:"description"`
 	Url         string    `json:"url"`
 	Price       string    `json:"price"`
-	Currency    string    `json:"currency"`
+	Currency    string    `json:"currency_code"`
 	Shop        Shop      `json:"Shop"`
 	User        User      `json:"User"`
 	Image       MainImage `json:"MainImage"`
