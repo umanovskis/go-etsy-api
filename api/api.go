@@ -18,6 +18,11 @@ type Requester interface {
 	Url() string
 }
 
+type Poster interface {
+	Url() string
+	Data() []byte
+}
+
 func CreateApiCtx(apiKey string) *EtsyApi {
 	return &EtsyApi{apiKey: apiKey}
 }
@@ -43,4 +48,9 @@ func (e *EtsyApi) authenticate(url string) string {
 
 func (e *EtsyApi) Request(r Requester) ([]byte, error) {
 	return http.HttpRequest(e.authenticate(r.Url()))
+}
+
+func (e *EtsyApi) Post(p Poster) ([]byte, error) {
+	fmt.Println(p.Url())
+	return http.HttpPost(e.authenticate(p.Url()), p.Data())
 }

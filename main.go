@@ -23,23 +23,42 @@ func main() {
 	req := ctx.NewListingRequest()
 	req.AddKeyword("goat")
 	body, err := ctx.Request(req)
+	body = body
 
 	if err != nil {
 		fmt.Printf(err.Error())
 		return
 	}
-
 	var response api.ListingResponse
 	json.Unmarshal(body, &response)
-	for _, l := range response.Items {
-		fmt.Println(l.Title + " -- SOLD BY -- " + l.Shop.Name)
-		fmt.Println(l.Url)
-		fmt.Println(l.User.Feedback)
-	}
+	/*		for _, l := range response.Items {
+				fmt.Println(l.Title + " -- SOLD BY -- " + l.Shop.Name)
+				fmt.Println(l.Url)
+				fmt.Println(l.User.Feedback)
+			}
+	*/
 	first := response.Items[0]
 	fmt.Println("---- FIRST ---- ")
-	fmt.Println(first.Title)
-	fmt.Println(first.Image.Url)
+	//fmt.Println(first.Title)
+	// fmt.Println(first.Image.Url)
+
+	guest, err := ctx.GenerateGuest()
+	if err != nil {
+		fmt.Println(err.Error())
+	} else {
+		fmt.Println("Got a guest!")
+		fmt.Printf("%+v\n", guest)
+	}
+	fmt.Printf("Guest checkout link is %s\n", guest.CheckoutUrl)
+	guest.AddListingToCart(first)
+	cart, err := ctx.GetGuestCart(guest)
+	if err != nil {
+		fmt.Println("Error adding item to cart...")
+		fmt.Println(err.Error())
+	} else {
+		fmt.Println("Got a cart!")
+		fmt.Printf("%s", cart)
+	}
 
 	/*
 		url = url.AddKeyword("goat")
